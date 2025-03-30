@@ -34,6 +34,7 @@ class Task(db.Model):
     is_urgent = db.Column(db.Boolean, default=False, nullable=False)
     # Could also use DateTime or Time depending on needs
     due_date = db.Column(db.Date, nullable=False)
+    # timepick = db.Column(db.Time, nullable=False)
     # Link between the tables. Foreign Key names the table (Category) using lowercase only and then .column (ID)
     # CASCADE creates a one-many relationship due to the category id being able to be used for many different tasks
     # CASCADE will not just delete the id column, but the whole task(s) associated with it

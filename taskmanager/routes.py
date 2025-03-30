@@ -110,6 +110,7 @@ def add_task():
             # If the check box is marked - it is true, otherwise it is defaulted to false
             is_urgent=bool(True if request.form.get("is_urgent") else False),
             due_date=request.form.get("due_date"),
+            # timepick=request.form.get("timepick"),
             category_id=request.form.get("category_id"),
         )
         # Add the above to the session
@@ -120,3 +121,28 @@ def add_task():
         return redirect(url_for("home"))
     # Return the template to add another task, as well as the information from the categories lists
     return render_template("add_task.html", categories=categories)
+
+
+# UPDATING TASK INFORMATION
+@app.route("/edit_task/<int:task_id>", methods=["GET", "POST"])
+def edit_task(task_id):
+    task = Task.query.get_or_404(task_id)
+    # Pulls all data and then orders it
+    # Order_by will overwrite the default of using the primary key and allows us to define how it is ordered
+    # Define the class and the column in the order_by
+    # Convert into a list by wrapping this in a list
+    categories = list(Category.query.order_by(Category.category_name).all())
+    if request.method == "POST":
+        # The variable task will pull all the information from the model Task
+        # Using each field as again - pull the information entered in the inputs
+        task.task_name = request.form.get("task_name")
+        task.task_description = request.form.get("task_description")
+        # If the check box is marked - it is true, otherwise it is defaulted to false
+        task.is_urgent = bool(True if request.form.get("is_urgent") else False)
+        task.due_date = request.form.get("due_date")
+        # task.timepick=request.form.get("timepick")
+        task.category_id = request.form.get("category_id")
+        # Commit it to the DB
+        db.session.commit()
+    # Return the template to add another task, as well as the information from the categories lists
+    return render_template("edit_task.html", task=task, categories=categories)

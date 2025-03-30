@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', function() {
       i18n: {done: "Select"}
     });
 
+    // Timepicker initialisation
+    // let timepicker = document.querySelectorAll('.timepicker');
+    // M.Timepicker.init(timepicker, {
+    //   i18n: {done: "Select"}
+    // });
+
     // Category choice initialisation
     let catChoice = document.querySelectorAll('select');
     M.FormSelect.init(catChoice);
