@@ -146,3 +146,17 @@ def edit_task(task_id):
         db.session.commit()
     # Return the template to add another task, as well as the information from the categories lists
     return render_template("edit_task.html", task=task, categories=categories)
+
+
+# DELETING TASK INFORMATION
+@app.route("/delete_task/<int:task_id>")
+# Pass the variable into the function
+def delete_task(task_id):
+    # Create a new variable to call upon the variable passed in and store it
+    task = Task.query.get_or_404(task_id)
+    # Pass the variable to be deleted
+    db.session.delete(task)
+    # Commit the delete
+    db.session.commit()
+    # Return to the categories page
+    return redirect(url_for("home"))
