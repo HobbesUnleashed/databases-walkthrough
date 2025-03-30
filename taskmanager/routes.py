@@ -83,3 +83,39 @@ def delete_category(category_id):
     db.session.commit()
     # Return to the categories page
     return redirect(url_for("categories"))
+
+
+# CREATE INFORMATION
+
+# Render a template used to add a new category
+# This will interact with the database so need to include the methods "GET" and "POST"
+
+
+# GET method will return the template page of 'add_category.html' (final line)
+# POST method will add to the DB and must be indented in the function
+@app.route("/add_task", methods=["GET", "POST"])
+def add_task():
+    # Pulls all data and then orders it
+    # Order_by will overwrite the default of using the primary key and allows us to define how it is ordered
+    # Define the class and the column in the order_by
+    # Convert into a list by wrapping this in a list
+    categories = list(Category.query.order_by(Category.category_name).all())
+    if request.method == "POST":
+        # The variable task will pull all the information from the model Task
+        task = Task(
+            # Using each field as again - pull the information entered in the inputs
+            task_name=request.form.get("task_name"),
+            task_description=request.form.get("task_description"),
+            # If the check box is marked - it is true, otherwise it is defaulted to false
+            is_urgent=bool(True if request.form.get("is_urgent") else False),
+            due_date=request.form.get("due_date"),
+            category_id=request.form.get("category_id"),
+        )
+        # Add the above to the session
+        db.session.add(task)
+        # Commit it to the DB
+        db.session.commit()
+        # Redirect the user back to the Home page using the route declared
+        return redirect(url_for("home"))
+    # Return the template to add another task, as well as the information from the categories lists
+    return render_template("add_task.html", categories=categories)
