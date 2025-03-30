@@ -10,11 +10,15 @@ document.addEventListener('DOMContentLoaded', function() {
       i18n: {done: "Select"}
     });
 
-    // Modal initialisation
-    let modal = document.querySelectorAll('.modal');
-    M.Modal.init(modal);
-
     // Category choice initialisation
     let catChoice = document.querySelectorAll('select');
     M.FormSelect.init(catChoice);
+
+    // Collapsible initialisation
+    let collapsibles = document.querySelectorAll('.collapsible');
+    M.Collapsible.init(collapsibles);
+    
+    // Modal initialisation
+    let modal = document.querySelectorAll('.modal');
+    M.Modal.init(modal);
   });

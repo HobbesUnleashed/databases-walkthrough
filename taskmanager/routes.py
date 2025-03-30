@@ -12,7 +12,8 @@ from taskmanager.models import Category, Task
 
 @app.route("/")
 def home():
-    return render_template("tasks.html")
+    tasks = list(Task.query.order_by(Task.id).all())
+    return render_template("tasks.html", tasks=tasks)
 
 
 # New page to be linked to within the website
@@ -27,7 +28,7 @@ def categories():
     return render_template("categories.html", categories=categories)
 
 
-# CREATE INFORMATION
+# CREATE CATEGORY INFORMATION
 
 # Render a template used to add a new category
 # This will interact with the database so need to include the methods "GET" and "POST"
@@ -85,13 +86,13 @@ def delete_category(category_id):
     return redirect(url_for("categories"))
 
 
-# CREATE INFORMATION
+# CREATE TASK INFORMATION
 
-# Render a template used to add a new category
+# Render a template used to add a new task
 # This will interact with the database so need to include the methods "GET" and "POST"
 
 
-# GET method will return the template page of 'add_category.html' (final line)
+# GET method will return the template page of 'add_task.html' (final line)
 # POST method will add to the DB and must be indented in the function
 @app.route("/add_task", methods=["GET", "POST"])
 def add_task():
